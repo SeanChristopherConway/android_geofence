@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="build/.apt_generated"/>
+	<classpathentry kind="lib" path="/Users/Sean/android-sdks/platforms/android-22/android.jar"/>
+	<classpathentry kind="lib" path="/Users/Sean/Library/Application Support/Titanium/mobilesdk/osx/5.0.0.GA/android/titanium.jar"/>
+	<classpathentry kind="lib" path="/Users/Sean/Library/Application Support/Titanium/mobilesdk/osx/5.0.0.GA/android/kroll-common.jar"/>
+	<classpathentry kind="lib" path="/Users/Sean/Library/Application Support/Titanium/mobilesdk/osx/5.0.0.GA/android/kroll-apt.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-		<classpathentry kind="lib" path="/Users/ap/android-sdk/sdk/platforms/android-10/android.jar"/>	<classpathentry kind="lib" path="/Users/ap/android-sdk/sdk/add-ons/addon-google_apis-google-10/libs/maps.jar"/>	<classpathentry kind="lib" path="/Users/ap/Library/Application Support/Titanium/mobilesdk/osx/3.2.2.GA/android/titanium.jar"/>	<classpathentry kind="lib" path="/Users/ap/Library/Application Support/Titanium/mobilesdk/osx/3.2.2.GA/android/kroll-common.jar"/>	<classpathentry kind="lib" path="/Users/ap/Library/Application Support/Titanium/mobilesdk/osx/3.2.2.GA/android/kroll-apt.jar"/>
+	<classpathentry kind="src" path=".apt_generated">
+		<attributes>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/Sean/Documents/Appcelerator_Custom_Modules/android_geofence/lib/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="/Users/Sean/Documents/Appcelerator_Custom_Modules/android_geofence/lib/google-play-services.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
