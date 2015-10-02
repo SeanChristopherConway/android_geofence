@@ -5,14 +5,14 @@
 version: 0.1
 apiversion: 2
 architectures: armeabi armeabi-v7a x86
-description: My module
-author: Your Name
+description: Custom Geofencing Android Module
+author: Sean Conway
 license: Specify your license
-copyright: Copyright (c) 2014 by Your Company
+copyright: Copyright (c) 2015 by Zayfti
 # these should not be edited
 name: androidgeofence
-moduleid: com.adampash.androidgeofence
-respackage: com.adampash.androidgeofence
+moduleid: com.zayfti.androidgeofence
+respackage: com.zayfti.androidgeofence
 guid: 483912a8-ee0d-46ae-b473-b5375d221639
 platform: android
 minsdk: 4.1.0.GA
