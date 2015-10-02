@@ -11,8 +11,6 @@ import org.appcelerator.titanium.TiApplication;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.adampash.androidgeofence.GeoFence;
 import com.google.gson.Gson;
 
 @Kroll.module(name = "Androidgeofence", id = "com.adampash.androidgeofence")
@@ -50,14 +48,24 @@ public class AndroidgeofenceModule extends KrollModule {
 	}
 
 	@Kroll.method
-	public void startMonitoringForRegions(final String regions,
-			KrollFunction _callback)
+	public void setCheckedInSite(String site) {
+
+		lastEnteredSite = site;
+	}
+
+	@Kroll.method
+	public void startMonitoringForRegions(final String regions)
 
 	throws JSONException {
 
 		JSONArray jsonarray = new JSONArray(regions);
 
+		if (mGeofenceList != null) {
+			mGeofenceList.clear();
+			mGeofenceList = null;
+		}
 		mGeofenceList = new ArrayList<GeoFence>();
+		System.out.println("fence list is: " + gson.toJson(mGeofenceList));
 		for (int i = 0; i < jsonarray.length(); i++) {
 
 			JSONObject region = jsonarray.getJSONObject(i);
@@ -72,11 +80,13 @@ public class AndroidgeofenceModule extends KrollModule {
 
 			String identifier = region.getString("identifier");
 
-			System.out.println(lat);
-
-			System.out.println(lng);
-
-			System.out.println(radius);
+			/*
+			 * System.out.println(lat);
+			 * 
+			 * System.out.println(lng);
+			 * 
+			 * System.out.println(radius);
+			 */
 
 			createGeofences(lng, lat, radius, identifier
 
@@ -93,49 +103,66 @@ public class AndroidgeofenceModule extends KrollModule {
 	@Kroll.method
 	public void stopMonitoringAllRegions() {
 		// TODO Auto-generated method stub
+		System.out.println("fence list is: " + gson.toJson(mGeofenceList));
+		if (mGeofenceList.size() > 0) {
+			HashMap<String, String> event = new HashMap<String, String>();
+			event.put("regions", gson.toJson(mGeofenceList));
+			fireEvent("removeregions", event);
+			mGeofenceList.clear();
+			// mGeofenceList = null;
+		}
 
-		HashMap<String, String> event = new HashMap<String, String>();
-		event.put("regions", gson.toJson(mGeofenceList));
-		fireEvent("removeregions", event);
-
-		mGeofenceList.clear();
-		mGeofenceList = null;
 	}
 
 	@Kroll.method
 	public void checkGeofences(double lng, double lat) {
-		System.out.println("Inside check geofences");
-
-		if (mGeofenceList != null) {
+		//System.out.println("Inside check geofences");
+		ArrayList<String> sitesIn = new ArrayList<String>();
+		ArrayList<String> sitesOut = new ArrayList<String>();
+		System.out.println("last entered site is: "+lastEnteredSite);
+		if (mGeofenceList != null && mGeofenceList.size() > 0) {
 			for (GeoFence fence : mGeofenceList) {
 				String fenceJSON = gson.toJson(fence);
-				System.out.println("Checking fence: " + fence.getIdentifier());
-				HashMap<String, String> event = new HashMap<String, String>();
+				//System.out.println("Checking fence: " + fence.getIdentifier());
+
 				if (GeoFence.checkInside(fence, lng, lat)) {
 					if (lastEnteredSite == null) {
 						System.out.printf("You are entering %s",
 								fence.getIdentifier());
-						event.put("regions", fenceJSON);
-						fireEvent("enterregions", event);
-						lastEnteredSite = fence.getIdentifier();
-					} else {
+						sitesIn.add(fenceJSON);
+
+						break;
+					}
+					if (lastEnteredSite.equals(fence.getIdentifier())) {
 						System.out.printf("You are still checked into %s",
-								fence.toString());
-						event.put("regions", fenceJSON);
-						fireEvent("inregions", event);
+								fence.getIdentifier());
+						break;
 					}
 
-				} else if (lastEnteredSite != null
-						&& lastEnteredSite.equals(fence.getIdentifier())) {
-					System.out.printf("You are exiting %s",
-							fence.getIdentifier());
-					event.put("regions", fenceJSON);
-					fireEvent("exitregions", event);
-
 				} else {
-					System.out.printf("You are not in %s",
-							fence.getIdentifier());
+					if (lastEnteredSite != null
+							&& lastEnteredSite.equals(fence.getIdentifier())) {
+						System.out.printf("You are exiting %s",
+								fence.getIdentifier());
+						sitesOut.add(fenceJSON);
+
+					} else {
+						/*System.out.printf("You are not in %s",
+								fence.getIdentifier());*/
+					}
 				}
+			}
+
+			if (sitesIn.size() > 0) {
+				HashMap<String, String> event = new HashMap<String, String>();
+				event.put("regions", sitesIn.toString());
+				fireEvent("enterregions", event);
+
+			}
+			if (sitesOut.size() > 0) {
+				HashMap<String, String> event = new HashMap<String, String>();
+				event.put("regions", sitesOut.toString());
+				fireEvent("exitregions", event);
 
 			}
 		}
