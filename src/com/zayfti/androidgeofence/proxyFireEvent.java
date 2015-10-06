@@ -1,4 +1,4 @@
-package com.adampash.androidgeofence;
+package com.zayfti.androidgeofence;
 
 import org.appcelerator.kroll.KrollProxy;
 public class proxyFireEvent extends KrollProxy {

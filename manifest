@@ -11,8 +11,13 @@ license: Specify your license
 copyright: Copyright (c) 2015 by Zayfti
 # these should not be edited
 name: androidgeofence
+<<<<<<< HEAD
 moduleid: com.adampash.androidgeofence
 #respackage: com.adampash.androidgeofence
+=======
+moduleid: com.zayfti.androidgeofence
+respackage: com.zayfti.androidgeofence
+>>>>>>> 3612168876cdb7b39357d3b084cbcdcfb09681e4
 guid: 483912a8-ee0d-46ae-b473-b5375d221639
 platform: android
 minsdk: 4.1.0.GA

@@ -1,4 +1,4 @@
-package com.adampash.androidgeofence;
+package com.zayfti.androidgeofence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,9 +11,13 @@ import org.appcelerator.titanium.TiApplication;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+<<<<<<< HEAD:src/com/adampash/androidgeofence/AndroidgeofenceModule.java
+=======
+
+>>>>>>> 3612168876cdb7b39357d3b084cbcdcfb09681e4:src/com/zayfti/androidgeofence/AndroidgeofenceModule.java
 import com.google.gson.Gson;
 
-@Kroll.module(name = "Androidgeofence", id = "com.adampash.androidgeofence")
+@Kroll.module(name = "Androidgeofence", id = "com.zayfti.androidgeofence")
 public class AndroidgeofenceModule extends KrollModule {
 
 	// Standard Debugging variables
@@ -53,6 +57,7 @@ public class AndroidgeofenceModule extends KrollModule {
 		lastEnteredSite = site;
 	}
 
+<<<<<<< HEAD:src/com/adampash/androidgeofence/AndroidgeofenceModule.java
 	private void initializeLocationManager() {
 		if (callback != null) {
 			HashMap event = new HashMap();
@@ -64,6 +69,10 @@ public class AndroidgeofenceModule extends KrollModule {
 	@Kroll.method
 	public void startMonitoringForRegions(final String regions,
 			KrollFunction _callback)
+=======
+	@Kroll.method
+	public void startMonitoringForRegions(final String regions)
+>>>>>>> 3612168876cdb7b39357d3b084cbcdcfb09681e4:src/com/zayfti/androidgeofence/AndroidgeofenceModule.java
 
 	throws JSONException {
 
@@ -129,6 +138,7 @@ public class AndroidgeofenceModule extends KrollModule {
 
 	@Kroll.method
 	public void checkGeofences(double lng, double lat) {
+<<<<<<< HEAD:src/com/adampash/androidgeofence/AndroidgeofenceModule.java
 		// System.out.println("Inside check geofences");
 		ArrayList<String> sitesIn = new ArrayList<String>();
 		ArrayList<String> sitesOut = new ArrayList<String>();
@@ -138,6 +148,16 @@ public class AndroidgeofenceModule extends KrollModule {
 				String fenceJSON = gson.toJson(fence);
 				// System.out.println("Checking fence: " +
 				// fence.getIdentifier());
+=======
+		//System.out.println("Inside check geofences");
+		ArrayList<String> sitesIn = new ArrayList<String>();
+		ArrayList<String> sitesOut = new ArrayList<String>();
+		System.out.println("last entered site is: "+lastEnteredSite);
+		if (mGeofenceList != null && mGeofenceList.size() > 0) {
+			for (GeoFence fence : mGeofenceList) {
+				String fenceJSON = gson.toJson(fence);
+				//System.out.println("Checking fence: " + fence.getIdentifier());
+>>>>>>> 3612168876cdb7b39357d3b084cbcdcfb09681e4:src/com/zayfti/androidgeofence/AndroidgeofenceModule.java
 
 				if (GeoFence.checkInside(fence, lng, lat)) {
 					if (lastEnteredSite == null) {
@@ -161,6 +181,7 @@ public class AndroidgeofenceModule extends KrollModule {
 						sitesOut.add(fenceJSON);
 
 					} else {
+<<<<<<< HEAD:src/com/adampash/androidgeofence/AndroidgeofenceModule.java
 						/*
 						 * System.out.printf("You are not in %s",
 						 * fence.getIdentifier());
@@ -170,11 +191,25 @@ public class AndroidgeofenceModule extends KrollModule {
 			}
 			HashMap<String, String> event = new HashMap<String, String>();
 			if (sitesIn.size() > 0) {
+=======
+						/*System.out.printf("You are not in %s",
+								fence.getIdentifier());*/
+					}
+				}
+			}
+
+			if (sitesIn.size() > 0) {
+				HashMap<String, String> event = new HashMap<String, String>();
+>>>>>>> 3612168876cdb7b39357d3b084cbcdcfb09681e4:src/com/zayfti/androidgeofence/AndroidgeofenceModule.java
 				event.put("regions", sitesIn.toString());
 				fireEvent("enterregions", event);
 
 			}
 			if (sitesOut.size() > 0) {
+<<<<<<< HEAD:src/com/adampash/androidgeofence/AndroidgeofenceModule.java
+=======
+				HashMap<String, String> event = new HashMap<String, String>();
+>>>>>>> 3612168876cdb7b39357d3b084cbcdcfb09681e4:src/com/zayfti/androidgeofence/AndroidgeofenceModule.java
 				event.put("regions", sitesOut.toString());
 				fireEvent("exitregions", event);
 

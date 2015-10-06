@@ -1,4 +1,4 @@
-package com.adampash.androidgeofence;
+package com.zayfti.androidgeofence;
 
 public class GeoFence {
 
