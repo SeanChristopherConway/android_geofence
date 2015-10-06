@@ -53,8 +53,17 @@ public class AndroidgeofenceModule extends KrollModule {
 		lastEnteredSite = site;
 	}
 
+	private void initializeLocationManager() {
+		if (callback != null) {
+			HashMap event = new HashMap();
+			event.put("type", "initialize location manager");
+			callback.call(getKrollObject(), event);
+		}
+	}
+
 	@Kroll.method
-	public void startMonitoringForRegions(final String regions)
+	public void startMonitoringForRegions(final String regions,
+			KrollFunction _callback)
 
 	throws JSONException {
 
@@ -92,6 +101,10 @@ public class AndroidgeofenceModule extends KrollModule {
 
 			);
 
+			callback = (KrollFunction) _callback;
+
+			// callback.call(getKrollObject(), event);
+
 		}
 
 		HashMap<String, String> event = new HashMap<String, String>();
@@ -116,14 +129,15 @@ public class AndroidgeofenceModule extends KrollModule {
 
 	@Kroll.method
 	public void checkGeofences(double lng, double lat) {
-		//System.out.println("Inside check geofences");
+		// System.out.println("Inside check geofences");
 		ArrayList<String> sitesIn = new ArrayList<String>();
 		ArrayList<String> sitesOut = new ArrayList<String>();
-		System.out.println("last entered site is: "+lastEnteredSite);
+		System.out.println("last entered site is: " + lastEnteredSite);
 		if (mGeofenceList != null && mGeofenceList.size() > 0) {
 			for (GeoFence fence : mGeofenceList) {
 				String fenceJSON = gson.toJson(fence);
-				//System.out.println("Checking fence: " + fence.getIdentifier());
+				// System.out.println("Checking fence: " +
+				// fence.getIdentifier());
 
 				if (GeoFence.checkInside(fence, lng, lat)) {
 					if (lastEnteredSite == null) {
@@ -147,20 +161,20 @@ public class AndroidgeofenceModule extends KrollModule {
 						sitesOut.add(fenceJSON);
 
 					} else {
-						/*System.out.printf("You are not in %s",
-								fence.getIdentifier());*/
+						/*
+						 * System.out.printf("You are not in %s",
+						 * fence.getIdentifier());
+						 */
 					}
 				}
 			}
-
+			HashMap<String, String> event = new HashMap<String, String>();
 			if (sitesIn.size() > 0) {
-				HashMap<String, String> event = new HashMap<String, String>();
 				event.put("regions", sitesIn.toString());
 				fireEvent("enterregions", event);
 
 			}
 			if (sitesOut.size() > 0) {
-				HashMap<String, String> event = new HashMap<String, String>();
 				event.put("regions", sitesOut.toString());
 				fireEvent("exitregions", event);
 
